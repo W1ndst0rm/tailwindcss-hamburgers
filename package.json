@@ -1,0 +1,27 @@
+{
+  "name": "tailwindcss-hamburgers",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Hamburger menus built with Tailwind CSS",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/W1ndst0rm/tailwindcss-hamburgers.git"
+  },
+  "keywords": [
+    "menu",
+    "hamburger",
+    "hamburgers",
+    "tailwind",
+    "tailwindcss"
+  ],
+  "author": "Levi Jumonville",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/W1ndst0rm/tailwindcss-hamburgers/issues"
+  },
+  "homepage": "https://github.com/W1ndst0rm/tailwindcss-hamburgers#readme",
+  "devDependencies": {
+    "tailwindcss": "^2.0.2"
+  }
+}
