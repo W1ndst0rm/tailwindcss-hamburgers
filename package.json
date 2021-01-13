@@ -1,6 +1,5 @@
 {
   "name": "tailwindcss-hamburgers",
-  "private": true,
   "version": "0.0.1",
   "description": "Hamburger menus built with Tailwind CSS",
   "main": "index.js",
