@@ -2,7 +2,13 @@
 
 Beautiful hamburger menus animated with pure CSS, available as Tailwind CSS components.
 
-Inspired by [Kasper Koman's](https://github.com/kapoko) [Delicious Hamburgers](https://github.com/kapoko/delicious-hamburgers). 
+Inspired by [Kasper Koman's](https://github.com/kapoko) [Delicious Hamburgers](https://github.com/kapoko/delicious-hamburgers).
+
+There are two animations available with more on the way.
+```
+stack
+collapse
+```
 
 ## Usage
 
@@ -31,7 +37,9 @@ module.exports = {
 ```html
 <button class="ham-wrapper ham-stack">
   <div class="ham-inner">
-    <div class="ham-bar" />
+    <span class="ham-bar" />
+    <span class="ham-bar" />
+    <span class="ham-bar" />
   </div>
 </button>
 ```
@@ -45,7 +53,9 @@ scaled by changing the font-size of the button.
 ```html
 <button class="ham-wrapper ham-stack ham-active text-3xl focus:outline-none border-2 border-black rounded">
   <div class="ham-inner">
-    <div class="ham-bar" />
+    <span class="ham-bar" />
+    <span class="ham-bar" />
+    <span class="ham-bar" />
   </div>
 </button>
 ```
@@ -77,7 +87,7 @@ module.exports = {
                     spaceBetween: 0.625,
                     barHeight: 0.25,
                     barWidth: 1.75,
-                    barRadium: 1.25,
+                    barRadius: 1.25,
                     padding: 0.5
                 },
                 color: "#000",
@@ -92,7 +102,7 @@ module.exports = {
 ```
 
 Additional variations can also be created by adding them to the `theme` configuration. In the following example,
-the classes `ham-wrapper-modern`, `ham-inner-modern`, `ham-bar-modern`, and `ham-{animation}-modern` would be created
+the classes `ham-wrapper-modern`, `ham-inner-modern`, `ham-bar-modern`, `ham-active-modern`, and `ham-{animation}-modern` would be created
 in addition to the base classes.  
 ```js
 // tailwind.config.js
@@ -132,6 +142,5 @@ These following attributes can be modified via the tailwind config file
     "backgroundActive": "transparent",
 ```
  - The `scale` object defines the multiplier used with the font size to scale various parts of the hamburger button.
-
  - The `color` and `colorActive` attributes define the colors of the bars.
  - The `background` and `backgroundActive` attributes define the background color of the button. 
