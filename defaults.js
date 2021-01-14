@@ -1,20 +1,48 @@
-module.exports = {
-    root2: Math.sqrt(2),
-    color: '#000',
-    activeColor: '#000',
-    background: 'transparent',
-    backgroundActive: 'transparent',
-    padding: '5px',
-    ease: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
-    easeIn: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
-    easeOut: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
-    bar: {
-        backgroundColor: '#000',
-        borderRadius: '4px',
+module.exports = function (customizations) {
+    const defaultHeight = .25
+    const defaultScale = {
+        spaceBetween: defaultHeight * 2.5,
+        barHeight: defaultHeight,
+        barWidth: defaultHeight * 7,
+        barRadius: defaultHeight / 2 ,
+        padding: 0
+    }
+    // merge default and customized scale
+    const scale = {
+        ...defaultScale,
+        ...customizations.scale
+    }
+
+    // use merged scale to configure settings
+    const defaultSettings = {
+        height: `${scale.barHeight + 2 * scale.spaceBetween + 2 * scale.padding}em`,
+        width: `${scale.barWidth + 2 * scale.padding}em`,
+        color: '#000',
+        colorActive: '#000',
+        background: 'transparent',
+        backgroundActive: 'transparent',
+        ease: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
+        easeIn: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
+        easeOut: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
+    }
+
+    // merge generated settings with user customizations
+    settings = {
+        ...defaultSettings,
+        ...customizations,
+        scale: scale,
+    }
+
+    // add default bar settings
+    settings.bar = {
+        backgroundColor: settings.color,
+        borderRadius: `${scale.barRadius}em`,
         content: '""',
         display: 'block',
         position: 'absolute',
-        height: '4px',
-        width: '100%'
+        height: `${scale.barHeight}em`,
+        width: `${scale.barWidth}em`
     }
+
+    return ( settings )
 }
