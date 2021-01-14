@@ -1,6 +1,6 @@
 const plugin = require('tailwindcss/plugin');
-const defaults = require('./defaults')
-const stack = require('./animations/stack')
+const getDefaults = require('./defaults');
+const animations = require('./animations/index');
 
 const defaultOptions = {
   prefix: 'ham-'
@@ -8,67 +8,96 @@ const defaultOptions = {
 
 module.exports = plugin.withOptions(function(options = {}) {
   return function({ addComponents, theme, e }) {
+    let burgerTheme = theme('hamburgers') || {}
+    if (!('base' in burgerTheme)) {
+      burgerTheme.base = {scale: {}}
+    }
+
     options = {
       ...defaultOptions,
       ...options
     }
-    const burgerTheme = theme('hamburgers')
+
+    function classPrefixer(className, variant) {
+      if (variant !== 'base')  {
+        variant = '-' + variant
+      } else {
+        variant = ''
+      }
+      return e(options.prefix + className + variant)
+    }
+
+    function generateVariant(variant) {
+      let classes = {
+        wrapper: classPrefixer('wrapper', variant),
+        inner: classPrefixer('inner', variant),
+        active: classPrefixer('active',variant),
+        bar: classPrefixer('bar', variant)
+      }
+
+      let settings = getDefaults(burgerTheme[variant])
+      settings.classes = classes
 
 
-    console.log(options)
 
-    const hamburgers = {
-      '.hamburger': {
-        height: '3rem',
-        width: '2.5rem',
-        backgroundColor: defaults.background,
-        border: 0,
-        borderRadius: 0,
-        color: 'inherit',
-        cursor: 'pointer',
-        display: 'inline-block',
-        font: 'inherit',
-        opacity: 1,
-        overflow: 'visible',
-        padding: defaults.padding,
-        textTransform: 'none',
-        transition: `opacity 0.2s ${defaults.ease}, background 0.2s ${defaults.ease}`,
-        '&.hamburger-active': {
-          backgroundColor: defaults.backgroundActive,
-          'span.bar': {
-            backgroundColor: defaults.activeColor
-          },
-          '> .hamburger-inner, span.bar': {
-            '&:nth-child(1), &:nth-child(2), &:nth-child(3)': {
-              '&::before, &::after': {
-                backgroundColor: defaults.activeColor
+      const hamburgers = {
+        [`.${classes.wrapper}`]: {
+          height: settings.height,
+          width: settings.width,
+          backgroundColor: settings.background,
+          padding: settings.padding,
+          border: '0 solid transparent',
+          color: 'inherit',
+          cursor: 'pointer',
+          display: 'inline-block',
+          fontSize: 'inherit',
+          overflow: 'visible',
+          textTransform: 'none',
+          transition: `opacity 0.2s ${settings.ease}, background 0.2s ${settings.ease}`,
+          // Set color and bg-color in active state
+          [`&.${classes.active}`]: {
+            backgroundColor: settings.backgroundActive,
+            [`span.${classes.bar}`]: {
+              backgroundColor: settings.colorActive
+            },
+            [`> .${classes.inner}, span.${classes.bar}`]: {
+              '&:nth-child(1), &:nth-child(2), &:nth-child(3)': {
+                '&::before, &::after': {
+                  backgroundColor: settings.colorActive
+                }
               }
+            }
+          },
+          // Center and scale the inner container
+          [`> .${classes.inner}`]: {
+            margin: 'auto',
+            marginTop: `-${settings.scale.barHeight/2}em`,
+            position: 'relative',
+            width: `${settings.scale.barWidth}em`,
+            fontSize: 'inherit'
+          },
+          // This is typically is hidden by the animation classes,
+          // but it provides a default an animation class isn't specified
+          [`span.${classes.bar}`]: {
+            ...settings.bar,
+            '&:nth-child(1)': {
+              top: `-${settings.scale.spaceBetween}em`  //
+            },
+            '&:nth-child(3)': {
+              top: `${settings.scale.spaceBetween}em`
             }
           }
         },
-        '> .hamburger-inner': {
-          margin: 0,
-          marginTop: '-2px',
-          position: 'relative',
-          width: '100%'
-        },
-        'span.bar': {
-          ...defaults.bar,
-          '&:nth-child(1)': {
-            top: '-10px'
-          },
-          '&:nth-child(3)': {
-            top: '10px'
-          }
-        },
-        '&:focus': {
-          outline: 0
-        }
-      },
-      ...stack
+        ...animations({settings, variant, classPrefixer})
+      }
+
+      addComponents(hamburgers)
     }
 
-    addComponents(hamburgers)
+    Object.keys(burgerTheme).forEach(function (variant)  {
+      generateVariant(variant)
+    })
+
   }
 })
 
