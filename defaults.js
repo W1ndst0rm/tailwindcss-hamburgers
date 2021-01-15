@@ -13,9 +13,12 @@ module.exports = function (customizations) {
         ...customizations.scale
     }
 
+    const inactiveHeight = scale.barHeight + 2 * scale.spaceBetween + 2 * scale.padding
+    const activeHeight = Math.sqrt(2) * scale.barWidth / 2
+
     // use merged scale to configure settings
     const defaultSettings = {
-        height: `${scale.barHeight + 2 * scale.spaceBetween + 2 * scale.padding}em`,
+        height: `${Math.max(inactiveHeight, activeHeight)}em`, //Make sure the container has enough room for with ever state is taller
         width: `${scale.barWidth + 2 * scale.padding}em`,
         color: '#000',
         colorActive: '#000',
