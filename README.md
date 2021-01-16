@@ -4,10 +4,12 @@ Beautiful hamburger menus animated with pure CSS, available as Tailwind CSS comp
 
 Inspired by [Kasper Koman's](https://github.com/kapoko) [Delicious Hamburgers](https://github.com/kapoko/delicious-hamburgers).
 
-There are two animations available with more on the way.
+There are four animations available with more on the way.
 ```
 stack
 collapse
+spin
+twist
 ```
 
 ## Usage
